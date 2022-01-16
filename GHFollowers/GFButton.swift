@@ -16,9 +16,7 @@ class GFButton: UIButton {
         configure()
     }
     
-
-    
-    //another init method to implement
+    //implement another init method
     init(backGroundCoor: UIColor, title: String) {
         super.init(frame: .zero)
         self.backgroundColor = backGroundCoor
