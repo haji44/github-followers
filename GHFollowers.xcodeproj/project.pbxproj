@@ -88,7 +88,6 @@
 				EDDFE24323B6C71E00C026C3 /* SceneDelegate.swift */,
 				EDDFE24A23B6C71E00C026C3 /* Assets.xcassets */,
 				EDDFE24C23B6C71E00C026C3 /* LaunchScreen.storyboard */,
-				EDDFE24F23B6C71E00C026C3 /* Info.plist */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -112,6 +111,7 @@
 		EDDFE24023B6C71E00C026C3 /* GHFollowers */ = {
 			isa = PBXGroup;
 			children = (
+				EDDFE24F23B6C71E00C026C3 /* Info.plist */,
 				20D171C127946E6500A0E6CB /* Support */,
 				20D171C027946DF000A0E6CB /* Extentions */,
 				20D171BF27946DBD00A0E6CB /* Custom Views */,
@@ -340,7 +340,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3TC8M379VG;
-				INFOPLIST_FILE = GHFollowers/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/GHFollowers/Support/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -358,7 +358,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3TC8M379VG;
-				INFOPLIST_FILE = GHFollowers/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/GHFollowers/Support/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
