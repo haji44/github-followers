@@ -19,6 +19,7 @@
 		20D3FA9B2795CAE2001C7D6C /* Follower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D3FA9A2795CAE2001C7D6C /* Follower.swift */; };
 		20D3FA9E2795CBF2001C7D6C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D3FA9D2795CBF2001C7D6C /* User.swift */; };
 		20D3FAA12795D1CC001C7D6C /* NetWorkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D3FAA02795D1CC001C7D6C /* NetWorkManager.swift */; };
+		20D3FAA42799C8EC001C7D6C /* ErrorMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D3FAA32799C8EC001C7D6C /* ErrorMessage.swift */; };
 		EDDFE24223B6C71E00C026C3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDDFE24123B6C71E00C026C3 /* AppDelegate.swift */; };
 		EDDFE24423B6C71E00C026C3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDDFE24323B6C71E00C026C3 /* SceneDelegate.swift */; };
 		EDDFE24B23B6C71E00C026C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EDDFE24A23B6C71E00C026C3 /* Assets.xcassets */; };
@@ -38,6 +39,7 @@
 		20D3FA9A2795CAE2001C7D6C /* Follower.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Follower.swift; sourceTree = "<group>"; };
 		20D3FA9D2795CBF2001C7D6C /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		20D3FAA02795D1CC001C7D6C /* NetWorkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetWorkManager.swift; sourceTree = "<group>"; };
+		20D3FAA32799C8EC001C7D6C /* ErrorMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessage.swift; sourceTree = "<group>"; };
 		EDDFE23E23B6C71E00C026C3 /* GHFollowers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GHFollowers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDDFE24123B6C71E00C026C3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EDDFE24323B6C71E00C026C3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -115,6 +117,14 @@
 			path = Manager;
 			sourceTree = "<group>";
 		};
+		20D3FAA22799C88B001C7D6C /* Utitlties */ = {
+			isa = PBXGroup;
+			children = (
+				20D3FAA32799C8EC001C7D6C /* ErrorMessage.swift */,
+			);
+			path = Utitlties;
+			sourceTree = "<group>";
+		};
 		EDDFE23523B6C71E00C026C3 = {
 			isa = PBXGroup;
 			children = (
@@ -134,6 +144,7 @@
 		EDDFE24023B6C71E00C026C3 /* GHFollowers */ = {
 			isa = PBXGroup;
 			children = (
+				20D3FAA22799C88B001C7D6C /* Utitlties */,
 				20D3FA9F2795D1B9001C7D6C /* Manager */,
 				20D3FA9C2795CAE9001C7D6C /* Model */,
 				EDDFE24F23B6C71E00C026C3 /* Info.plist */,
@@ -222,6 +233,7 @@
 				20D3FAA12795D1CC001C7D6C /* NetWorkManager.swift in Sources */,
 				20C6F29B2753BBD600EE89BC /* FavoriteListVC.swift in Sources */,
 				202BF712275676A0001CF8C7 /* GFButton.swift in Sources */,
+				20D3FAA42799C8EC001C7D6C /* ErrorMessage.swift in Sources */,
 				20C6F2992753BBA200EE89BC /* SearchVC.swift in Sources */,
 				20D171B72794600100A0E6CB /* GFTitleLabel.swift in Sources */,
 				20D3FA9B2795CAE2001C7D6C /* Follower.swift in Sources */,

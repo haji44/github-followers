@@ -8,6 +8,7 @@
 
 import UIKit
 
+// This class in charge of the showing the follower
 class FollowerListVC: UIViewController {
 
     var userName: String!
@@ -16,18 +17,24 @@ class FollowerListVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
-        NetWorkManager.shared.getFollowers(for: userName, page: 1) { followers, errorMessage in
-            guard let followers = followers else {
-                self.pressntGFAlerOnMainThread(title: "Bad stuff happened", message: errorMessage!, buttonTitle: "OK")
+        
+        // This treat the excution as result
+        // and then we handle the error based on the result enum
+        NetWorkManager.shared.getFollowers(for: userName, page: 1) { result in
+            // declare the switch statement
+            switch result {
+            // when method sucess, just print the data
+            case .success(let followers):
+                print(followers)
+                return
+            // when method failer, show alert
+            case .failure(let error):
+                self.pressntGFAlerOnMainThread(title: "Bad stuff happened", message: error.rawValue, buttonTitle: "OK")
                 return
             }
-            
-            print("Folloers.count = \(followers.count)")
-            print(followers)
         }
-        
     }
-
+    // prevent from erasing, when swipe this view
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
