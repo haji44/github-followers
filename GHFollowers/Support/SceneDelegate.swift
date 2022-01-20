@@ -21,6 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         window?.rootViewController = createTabbar()
         window?.makeKeyAndVisible()
+        configureNavigationBar()
     }
 
     //2. implemet the methods to create the searchVC
@@ -35,7 +36,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // UITabBarItem(tabBarSystemItem: type of the icon, tag: place of the item in the tabbar)
         searchVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
         
-        // 
         return UINavigationController(rootViewController: searchVC)
     }
     
@@ -57,6 +57,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         return tabbar
     }
+    
+    // create the configure navigation
+    func configureNavigationBar() {
+        UINavigationBar.appearance().tintColor = .systemGreen
+    }
+    
     
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
