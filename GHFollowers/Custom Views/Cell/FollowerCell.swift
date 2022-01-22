@@ -26,12 +26,14 @@ class FollowerCell: UICollectionViewCell {
     }
     
     // this method get the data from follower
+    // and then setting the user from data
     func set(follower: Follower) {
         self.userNameLabel.text = follower.login
     }
     
     // cofigure the cell in order to decide the way how to show the text and image
     private func configure() {
+        // for now, the app need to show two components
         addSubview(avatarImageView)
         addSubview(userNameLabel)
         
@@ -39,14 +41,14 @@ class FollowerCell: UICollectionViewCell {
         let padding: CGFloat = 8
         
         NSLayoutConstraint.activate([
-            avatarImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding),
-            avatarImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
-            avatarImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
+            avatarImageView.topAnchor.constraint(equalTo: topAnchor, constant: padding),
+            avatarImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
+            avatarImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
             avatarImageView.heightAnchor.constraint(equalTo: avatarImageView.widthAnchor),
             
             userNameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 12),
-            userNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
-            userNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
+            userNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
+            userNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
             userNameLabel.heightAnchor.constraint(equalToConstant: 20)
         ])
     }
