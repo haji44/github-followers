@@ -10,8 +10,9 @@ import UIKit
 
 // This class in charge of the showing the follower
 class FollowerListVC: UIViewController {
-
+    //
     var userName: String!
+    var collectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -20,6 +20,8 @@
 		20D3FA9E2795CBF2001C7D6C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D3FA9D2795CBF2001C7D6C /* User.swift */; };
 		20D3FAA12795D1CC001C7D6C /* NetWorkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D3FAA02795D1CC001C7D6C /* NetWorkManager.swift */; };
 		20D3FAA42799C8EC001C7D6C /* ErrorMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D3FAA32799C8EC001C7D6C /* ErrorMessage.swift */; };
+		20D3FAA72799D5CA001C7D6C /* FollowerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D3FAA62799D5CA001C7D6C /* FollowerCell.swift */; };
+		20D3FAA92799D693001C7D6C /* GFAvatarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D3FAA82799D693001C7D6C /* GFAvatarImageView.swift */; };
 		EDDFE24223B6C71E00C026C3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDDFE24123B6C71E00C026C3 /* AppDelegate.swift */; };
 		EDDFE24423B6C71E00C026C3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDDFE24323B6C71E00C026C3 /* SceneDelegate.swift */; };
 		EDDFE24B23B6C71E00C026C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EDDFE24A23B6C71E00C026C3 /* Assets.xcassets */; };
@@ -40,6 +42,8 @@
 		20D3FA9D2795CBF2001C7D6C /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		20D3FAA02795D1CC001C7D6C /* NetWorkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetWorkManager.swift; sourceTree = "<group>"; };
 		20D3FAA32799C8EC001C7D6C /* ErrorMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessage.swift; sourceTree = "<group>"; };
+		20D3FAA62799D5CA001C7D6C /* FollowerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerCell.swift; sourceTree = "<group>"; };
+		20D3FAA82799D693001C7D6C /* GFAvatarImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFAvatarImageView.swift; sourceTree = "<group>"; };
 		EDDFE23E23B6C71E00C026C3 /* GHFollowers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GHFollowers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDDFE24123B6C71E00C026C3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EDDFE24323B6C71E00C026C3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -73,10 +77,12 @@
 		20D171BF27946DBD00A0E6CB /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				20D3FAA52799D5A3001C7D6C /* Cell */,
 				202BF711275676A0001CF8C7 /* GFButton.swift */,
 				20D171B82794613C00A0E6CB /* GFBodyLable.swift */,
 				202BF713275679F4001CF8C7 /* GFTextField.swift */,
 				20D171B62794600100A0E6CB /* GFTitleLabel.swift */,
+				20D3FAA82799D693001C7D6C /* GFAvatarImageView.swift */,
 			);
 			path = "Custom Views";
 			sourceTree = "<group>";
@@ -123,6 +129,14 @@
 				20D3FAA32799C8EC001C7D6C /* ErrorMessage.swift */,
 			);
 			path = Utitlties;
+			sourceTree = "<group>";
+		};
+		20D3FAA52799D5A3001C7D6C /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				20D3FAA62799D5CA001C7D6C /* FollowerCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		EDDFE23523B6C71E00C026C3 = {
@@ -231,8 +245,10 @@
 				20D171BD27946ABD00A0E6CB /* UIViewController+EX.swiftI.swift in Sources */,
 				20D171B92794613C00A0E6CB /* GFBodyLable.swift in Sources */,
 				20D3FAA12795D1CC001C7D6C /* NetWorkManager.swift in Sources */,
+				20D3FAA92799D693001C7D6C /* GFAvatarImageView.swift in Sources */,
 				20C6F29B2753BBD600EE89BC /* FavoriteListVC.swift in Sources */,
 				202BF712275676A0001CF8C7 /* GFButton.swift in Sources */,
+				20D3FAA72799D5CA001C7D6C /* FollowerCell.swift in Sources */,
 				20D3FAA42799C8EC001C7D6C /* ErrorMessage.swift in Sources */,
 				20C6F2992753BBA200EE89BC /* SearchVC.swift in Sources */,
 				20D171B72794600100A0E6CB /* GFTitleLabel.swift in Sources */,
