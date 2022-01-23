@@ -11,11 +11,12 @@ import UIKit
 // This class in charge of the showing the follower for user
 class FollowerListVC: UIViewController {
     // Property
-    enum Section {
-        case main
-    }
+    enum Section { case main }
+    var page = 1
+    var hasMoreFollower = true  // this flag decide whether
     var userName: String!
-    var follower = [Follower]()
+    var follwers = [Follower]()
+    var filterdFollers = [Follower]() // this object update via search bar
     var collectionView: UICollectionView!
     // datasource are required to confirm Hashable
     var dataSource: UICollectionViewDiffableDataSource<Section, Follower>!
@@ -27,7 +28,8 @@ class FollowerListVC: UIViewController {
         super.viewDidLoad()
         configureViewController()
         configureCollectionView()
-        getFollowers()
+        configureSearchController()
+        getFollowers(username: userName, page: page)
         configureDataSource()
     }
     
@@ -49,45 +51,52 @@ class FollowerListVC: UIViewController {
     // and registering the object we want to show to the user.
     func configureCollectionView() {
         // initialize the object to add a subview
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createTheCoulumnFlowLayou())
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createTheCoulumnFlowLayou(in: view))
         view.addSubview(collectionView)
+        collectionView.delegate = self
         collectionView.backgroundColor = .systemBackground
         // Because reuseId is declared as a static variable,
         // we no longer need to create the FollowerCell instance.
         collectionView.register(FollowerCell.self, forCellWithReuseIdentifier: FollowerCell.reuseId)
     }
     
-    // This method is responsible for the layout of UICollectionView,
-    // then specifing the number of the coulmn
-    func createTheCoulumnFlowLayou() -> UICollectionViewFlowLayout {
-        // calculating every item width
-        let width = view.bounds.width
-        let padding: CGFloat = 12
-        let minimumItemSpacing: CGFloat = 10
-        let availableWidth = width - (padding * 2) - (minimumItemSpacing * 2)
-        let itemWidth = availableWidth / 3
-        
-        // flowlayout consists of sectionInset and itemSize
-        let flowLayout = UICollectionViewFlowLayout()
-        // sectionInset represents space for item to item
-        flowLayout.sectionInset = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
-        flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth + 40)
-        
-        return flowLayout
+    // Within this method, create the searchController
+    // and then swift require this class confirm to searchResultUpdating protcol and UIsearchBar protcol
+    func configureSearchController() {
+        let seartchController = UISearchController()
+        seartchController.searchResultsUpdater = self
+        seartchController.searchBar.delegate = self // this delegate object notify the action when user interact with view
+        seartchController.searchBar.placeholder = "Search for a username"
+        navigationItem.searchController = seartchController
     }
     
     
     // This method treat the excution as result
     // and then we handle the error based on the result enum
-    func getFollowers() {
-        NetWorkManager.shared.getFollowers(for: userName, page: 1) { result in
-            // declare the switch statement
+    func getFollowers(username: String, page: Int) {
+        showLoadingView()
+        NetWorkManager.shared.getFollowers(for: userName, page: page) { [weak self ] result in
+            // because weak keyword return optional,
+            // so you should check precondition of self
+            guard let self = self else { return }
+            
+            self.dismissLodingView()
+            
             switch result {
             // when method sucess, just print the data
             case .success(let followers):
                 // update follower objects and data source
-                self.follower = followers
-                self.updateData()
+                if followers.count < 100 { self.hasMoreFollower = false }
+                self.follwers.append(contentsOf: followers)
+                
+                if self.follwers.isEmpty {
+                    let mesage = "This user doesn't have any followers. 🥲"
+                    
+                    DispatchQueue.main.async { self.showEmptyStateView(with: mesage, in: self.view) }
+                    return
+                }
+                self.updateData(on: followers)
+                
             // when method failer, show alert
             case .failure(let error):
                 self.pressntGFAlerOnMainThread(title: "Bad stuff happened", message: error.rawValue, buttonTitle: "OK")
@@ -110,11 +119,43 @@ class FollowerListVC: UIViewController {
     
     // This method create snaphot which has same schem against data source
     // and it's called after excuting getFollowers
-    func updateData() {
+    func updateData(on followers: [Follower]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Follower>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(follower)
-        dataSource.apply(snapshot, animatingDifferences: true)
+        snapshot.appendItems(followers)
+        DispatchQueue.main.async { self.dataSource.apply(snapshot, animatingDifferences: true) }
     }
 
+}
+
+// So that get new page
+// the app need to detect scolling new section
+extension FollowerListVC: UICollectionViewDelegate {
+    // This method excute the pagenation
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let height = scrollView.frame.size.height
+        
+        if offsetY > contentHeight - height {
+            guard hasMoreFollower else { return }
+            page += 1
+            getFollowers(username: userName, page: page)
+        }
+    }
+}
+
+// This extentin need to use the updateSearchResult
+extension FollowerListVC: UISearchResultsUpdating, UISearchBarDelegate {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let filter = searchController.searchBar.text, !filter.isEmpty else { return }
+        filterdFollers = follwers.filter { $0.login.lowercased().contains(filter.lowercased()) }
+        updateData(on: filterdFollers)
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        updateData(on: follwers)
+    }
+        
 }

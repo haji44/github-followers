@@ -29,6 +29,7 @@ class FollowerCell: UICollectionViewCell {
     // and then setting the user from data
     func set(follower: Follower) {
         self.userNameLabel.text = follower.login
+        avatarImageView.downLoadImage(from: follower.avatarUrl)
     }
     
     // cofigure the cell in order to decide the way how to show the text and image

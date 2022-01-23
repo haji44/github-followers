@@ -6,13 +6,15 @@
 //  Copyright © 2022 Sean Allen. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class NetWorkManager {
     // share one instance entire app
     static let shared = NetWorkManager()
-    let baseURL = "https://api.github.com/"
-    // to create the instance within this class, we need to initializer
+    private let baseURL = "https://api.github.com/"
+    let cache = NSCache<NSString, UIImage>()
+    
+    // to create the instance within this class, we need to initialize class its self
     private init() { }
  
     // This method allow app access the github api
