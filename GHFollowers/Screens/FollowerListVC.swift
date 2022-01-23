@@ -18,6 +18,7 @@ class FollowerListVC: UIViewController {
     var follwers = [Follower]()
     var filterdFollers = [Follower]() // this object update via search bar
     var collectionView: UICollectionView!
+    var isSarching = false // this flag determains
     // datasource are required to confirm Hashable
     var dataSource: UICollectionViewDiffableDataSource<Section, Follower>!
     
@@ -143,6 +144,19 @@ extension FollowerListVC: UICollectionViewDelegate {
             getFollowers(username: userName, page: page)
         }
     }
+    
+    // When a user taps item, this method will call
+    // and then show a modal presentation
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // change the object which treat upcoming by flag
+        let activeArray = isSarching ?  filterdFollers : follwers
+        let follower = activeArray[indexPath.item]
+        
+        let destVC = UserInfoVC()
+        destVC.username = follower.login
+        let navController = UINavigationController(rootViewController: destVC)
+        present(navController, animated: true)
+    }
 }
 
 // This extentin need to use the updateSearchResult
@@ -150,11 +164,13 @@ extension FollowerListVC: UISearchResultsUpdating, UISearchBarDelegate {
     
     func updateSearchResults(for searchController: UISearchController) {
         guard let filter = searchController.searchBar.text, !filter.isEmpty else { return }
+        isSarching = true
         filterdFollers = follwers.filter { $0.login.lowercased().contains(filter.lowercased()) }
         updateData(on: filterdFollers)
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        isSarching = false
         updateData(on: follwers)
     }
         
