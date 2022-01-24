@@ -34,4 +34,13 @@ class GFButton: UIButton {
         titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
         translatesAutoresizingMaskIntoConstraints = false
     }
+    
+    
+    // This method is used in CustomeVC
+    // Every button should be defferent color
+    func set(backGroundColor: UIColor, title: String) {
+        self.backgroundColor = backGroundColor
+        setTitle(title, for: .normal)
+    }
+    
 }

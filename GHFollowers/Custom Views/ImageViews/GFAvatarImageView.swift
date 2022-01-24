@@ -32,7 +32,8 @@ class GFAvatarImageView: UIImageView {
         translatesAutoresizingMaskIntoConstraints = false
     }
 
-    // This method is resiponsible for handling the image
+    // This method is resiponsible for handling the image,
+    // urlString equal to avatarURL
     func downLoadImage(from urlString: String) {
         // we need to convert NSString to Swift String
         let cacheKey = NSString(string: urlString)
@@ -43,7 +44,9 @@ class GFAvatarImageView: UIImageView {
         
         guard let url = URL(string: urlString ) else { return }
         
-        
+        /// data: contains image
+        /// response: httpurl respnse
+        /// error:
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             // 1. check error
             if error != nil { return }

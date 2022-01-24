@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 
 fileprivate var containerView: UIView!
 
@@ -20,6 +21,14 @@ extension UIViewController {
             self.present(alertVC, animated: true)
         }
     }
+    
+    func presentSafariVC(for url: URL) {
+        // create safari view and then show up for user
+        let safariVC = SFSafariViewController(url: url)
+        safariVC.preferredControlTintColor = .systemGreen
+        present(safariVC, animated: true)
+    }
+    
     
     // This method is responsible for showing loading icon
     // you should call this method before doing netowork call or something update
