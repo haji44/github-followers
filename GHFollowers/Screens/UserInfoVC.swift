@@ -11,8 +11,8 @@ import UIKit
 class UserInfoVC: UIViewController {
     
     let headerView = UIView() // this view will be consist of three child view
-    let itemViewOne = UIView()
-    let itemViewTwo = UIView()
+    let itemViewOne = UIView() // this view will be assinged GFUserItemVC
+    let itemViewTwo = UIView() // this view will be assinged GFFollowerItemVC
     var itemViews: [UIView] = []
     
     
@@ -42,6 +42,8 @@ class UserInfoVC: UIViewController {
             case .success(let user):
                 DispatchQueue.main.async {
                     self.add(childVC: GFUserInfoHeaderVC(user: user), to: self.headerView)
+                    self.add(childVC: GFRepoItemVC(user: user), to: self.itemViewOne)
+                    self.add(childVC: GFFollowerItemVC(user: user), to: self.itemViewTwo)
                 }
             case .failure(let error):
                 self.pressntGFAlerOnMainThread(title: "something went wrong", message: error.rawValue, buttonTitle: "OK")
@@ -67,9 +69,7 @@ class UserInfoVC: UIViewController {
             ])
         }
         
-        itemViewOne.backgroundColor = .systemPink
-        itemViewTwo.backgroundColor = .systemBlue
-
+        
         NSLayoutConstraint.activate([
             headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             headerView.heightAnchor.constraint(equalToConstant: 180),
