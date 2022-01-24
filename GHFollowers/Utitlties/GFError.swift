@@ -1,8 +1,8 @@
 //
-//  ErrorMessage.swift
+//  GFError.swift
 //  GHFollowers
 //
-//  Created by kitano hajime on 2022/01/21.
+//  Created by kitano hajime on 2022/01/24.
 //  Copyright © 2022 Sean Allen. All rights reserved.
 //
 
@@ -13,5 +13,4 @@ enum GFError: String, Error {
     case unableToComplete = "Unable to complete your request, Please check your internet connection."
     case invalidResponse = "Invalid response from the server. Please try again."
     case invalidData = "The data received from the server was invalid"
-    
 }
