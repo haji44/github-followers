@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol FollowerListVCDelegate: class {
+    func didRequestFollower(for username: String)
+}
+
+
 // This class in charge of the showing the follower for user
 class FollowerListVC: UIViewController {
     // Property
@@ -21,7 +26,6 @@ class FollowerListVC: UIViewController {
     var isSarching = false // this flag determains
     // datasource are required to confirm Hashable
     var dataSource: UICollectionViewDiffableDataSource<Section, Follower>!
-    
     
     // keep the code concise within this method
     // Never write the actual implementation to avoid messy looks
@@ -154,6 +158,7 @@ extension FollowerListVC: UICollectionViewDelegate {
         
         let destVC = UserInfoVC()
         destVC.username = follower.login
+        destVC.delegate = self
         let navController = UINavigationController(rootViewController: destVC)
         present(navController, animated: true)
     }
@@ -174,4 +179,23 @@ extension FollowerListVC: UISearchResultsUpdating, UISearchBarDelegate {
         updateData(on: follwers)
     }
         
+}
+
+//
+extension FollowerListVC: FollowerListVCDelegate {
+    
+    // this method is responsible for researching the result of user which was tapped in UserInfo
+    func didRequestFollower(for username: String) {
+        // set new data
+        self.userName = username
+        title = userName
+        // reset state
+        page = 1
+        follwers.removeAll()
+        filterdFollers.removeAll()
+        collectionView.setContentOffset(.zero, animated: true) // this line code does reset view position
+        // get another followers
+        getFollowers(username: username, page: page)
+    }
+    
 }
