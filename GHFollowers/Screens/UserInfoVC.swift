@@ -13,8 +13,9 @@ class UserInfoVC: UIViewController {
     let headerView = UIView() // this view will be consist of three child view
     let itemViewOne = UIView() // this view will be assinged GFUserItemVC
     let itemViewTwo = UIView() // this view will be assinged GFFollowerItemVC
+    let dataLabel = GFBodyLable(textAlignment: .center)
     var itemViews: [UIView] = []
-    
+
     
     var username: String!
     
@@ -44,6 +45,7 @@ class UserInfoVC: UIViewController {
                     self.add(childVC: GFUserInfoHeaderVC(user: user), to: self.headerView)
                     self.add(childVC: GFRepoItemVC(user: user), to: self.itemViewOne)
                     self.add(childVC: GFFollowerItemVC(user: user), to: self.itemViewTwo)
+                    self.dataLabel.text = "GitHub Since \(user.createdAt.convertToDisplayFormat())"
                 }
             case .failure(let error):
                 self.pressntGFAlerOnMainThread(title: "something went wrong", message: error.rawValue, buttonTitle: "OK")
@@ -57,7 +59,7 @@ class UserInfoVC: UIViewController {
         let padding: CGFloat = 20
         let itemHeight: CGFloat = 140
         
-        itemViews = [headerView, itemViewOne, itemViewTwo]
+        itemViews = [headerView, itemViewOne, itemViewTwo, dataLabel]
 
         for itemView in itemViews {
             view.addSubview(itemView)
@@ -78,7 +80,10 @@ class UserInfoVC: UIViewController {
             itemViewOne.heightAnchor.constraint(equalToConstant: itemHeight),
             
             itemViewTwo.topAnchor.constraint(equalTo: itemViewOne.bottomAnchor, constant: padding),
-            itemViewTwo.heightAnchor.constraint(equalToConstant: itemHeight)
+            itemViewTwo.heightAnchor.constraint(equalToConstant: itemHeight),
+            
+            dataLabel.topAnchor.constraint(equalTo: itemViewTwo.bottomAnchor, constant: padding),
+            dataLabel.heightAnchor.constraint(equalToConstant: 18)
         ])
     }
     
