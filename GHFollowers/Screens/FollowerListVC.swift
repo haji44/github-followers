@@ -50,6 +50,10 @@ class FollowerListVC: UIViewController {
     func configureViewController() {
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
+        // apply the barbutton to navigation
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
+        navigationItem.rightBarButtonItem = doneButton
+
     }
     
     // This method is responsible for initialising the collection view
@@ -130,7 +134,12 @@ class FollowerListVC: UIViewController {
         snapshot.appendItems(followers)
         DispatchQueue.main.async { self.dataSource.apply(snapshot, animatingDifferences: true) }
     }
-
+    
+    // when the user do following the other user
+    // this method is called
+    @objc func addButtonTapped() {
+        print("Add Button tapped")
+    }
 }
 
 // So that get new page
