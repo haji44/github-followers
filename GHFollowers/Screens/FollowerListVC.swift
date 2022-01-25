@@ -138,7 +138,35 @@ class FollowerListVC: UIViewController {
     // when the user do following the other user
     // this method is called
     @objc func addButtonTapped() {
-        print("Add Button tapped")
+        showLoadingView()
+        
+        // within this closure, we use self
+        // capture list is requred
+        NetWorkManager.shared.getUserInfo(for: userName) { [weak self] result in
+            guard let self = self else { return }
+            self.dismissLodingView()
+            
+            switch result {
+            case .success(let user):
+                let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
+                
+                PersistanceManager.updateWith(favorite: favorite, actionType: .add) { [weak self] error in
+                    guard let self = self else { return }
+                    guard let error = error else {
+                        // when error doesn't exist
+                        self.pressntGFAlerOnMainThread(title: "Sucess", message: "You have sucessfully favorited this user 🎉", buttonTitle: "OK")
+                        return
+                    }
+                    
+                    // when error exist
+                    self.pressntGFAlerOnMainThread(title: "Some this went wrong", message: error.rawValue, buttonTitle: "OK")
+                }
+                
+                
+            case .failure(let error):
+                self.pressntGFAlerOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "OK")
+            }
+        }
     }
 }
 
