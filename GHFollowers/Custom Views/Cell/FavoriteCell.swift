@@ -29,8 +29,11 @@ class FavoriteCell: UITableViewCell {
     // this method get the data from follower
     // and then setting the user from data
     func set(favorite: Follower) {
-        self.userNameLabel.text = favorite.login
-        avatarImageView.downLoadImage(from: favorite.avatarUrl)
+        userNameLabel.text = favorite.login
+        NetWorkManager.shared.downloadImage(from: favorite.avatarUrl) { [weak self] image in
+            guard let self = self else { return }
+            DispatchQueue.main.async { self.avatarImageView.image = image }
+        }
     }
     
     

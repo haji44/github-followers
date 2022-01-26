@@ -21,7 +21,7 @@ class NetWorkManager {
     // and then, get the user's data
     // when error oucrre, log the error message and show the alert dialog
     func getFollowers(for username: String, page: Int, completed: @escaping (Result<[Follower], GFError>) -> Void) {
-        let endpoint = baseURL + "\(username)/followers?per_page=100&page=\(page)"
+        let endpoint = baseURL + "\(username)/followers?per_page=99&page=\(page)"
         
         guard let url = URL(string: endpoint) else {
             completed(.failure(.invalidUserName))
@@ -90,14 +90,50 @@ class NetWorkManager {
             }
             // Declare the do try catch because the decoding cause unexpected error
             do {
-                let decoder  = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let user = try decoder.decode(User.self, from: data)
+                let decoder                     = JSONDecoder()
+                decoder.keyDecodingStrategy     = .convertFromSnakeCase
+                decoder.dateDecodingStrategy    = .iso8601
+                let user                        = try decoder.decode(User.self, from: data)
                 completed(.success(user))
             } catch {
                 completed(.failure(.invalidData))
             }
         }
+        task.resume()
+    }
+    
+    func downloadImage(from urlString: String, completed: @escaping (UIImage?) -> Void) {
+        // we need to convert NSString to Swift String
+        let cacheKey = NSString(string: urlString)
+        if let image = cache.object(forKey: cacheKey) {
+            completed(image)
+            return
+        }
+        
+        guard let url = URL(string: urlString ) else {
+            completed(nil)
+            return
+        }
+        
+        /// data: contains image
+        /// response: httpurl respnse
+        /// error:
+        let task = URLSession.shared.dataTask(with: url) { [weak self]data, response, error in
+            
+            guard let self = self,  // 1. check error
+                  error == nil,             // 2. check response
+                  let response = response as? HTTPURLResponse, response.statusCode == 200,              // 3. check data
+                  let data = data,              // 4. assing the data to image
+                  let image = UIImage(data: data) else {    // 1. check error
+                      completed(nil)                // 2. check response
+                      return
+                  }
+
+            // 5. set new cache
+            self.cache.setObject(image, forKey: cacheKey)
+            completed(image)
+        }
+        
         task.resume()
     }
 }

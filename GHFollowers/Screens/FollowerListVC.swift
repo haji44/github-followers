@@ -14,7 +14,7 @@ protocol FollowerListVCDelegate: class {
 
 
 // This class in charge of the showing the follower for user
-class FollowerListVC: UIViewController {
+class FollowerListVC: GFDataLoadingVC {
     // Property
     enum Section { case main }
     var page = 1
@@ -27,6 +27,19 @@ class FollowerListVC: UIViewController {
     // datasource are required to confirm Hashable
     var dataSource: UICollectionViewDiffableDataSource<Section, Follower>!
     
+    // when absent the username, app will crush
+    // so we should make sure the user setting in this class
+    init(username: String) {
+        super.init(nibName: nil, bundle: nil)
+        self.userName = username
+        title = username
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+
     // keep the code concise within this method
     // Never write the actual implementation to avoid messy looks
     override func viewDidLoad() {
@@ -95,7 +108,7 @@ class FollowerListVC: UIViewController {
             // when method sucess, just print the data
             case .success(let followers):
                 // update follower objects and data source
-                if followers.count < 100 { self.hasMoreFollower = false }
+                if followers.count < 99 { self.hasMoreFollower = false }
                 self.follwers.append(contentsOf: followers)
                 
                 if self.follwers.isEmpty {

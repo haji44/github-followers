@@ -24,10 +24,9 @@ class GFEmptyStateView: UIView {
     
     // This is the convinience initializer
     // 3. to ease to call we create this method
-    init(message: String) {
-        super.init(frame: .zero)
-        messageLabel.text = message
-        configure()
+    convenience init(message: String) {
+        self.init(frame: .zero)
+        messageLabel.text = message        
     }
     
     // 2. implement setting both position and contents

@@ -17,11 +17,10 @@ class GFButton: UIButton {
     }
     
     //implement another init method
-    init(backGroundCoor: UIColor, title: String) {
-        super.init(frame: .zero)
+    convenience init(backGroundCoor: UIColor, title: String) {
+        self.init(frame: .zero)
         self.backgroundColor = backGroundCoor
         self.setTitle(title, for: .normal)
-        configure()
     }
     
     required init?(coder: NSCoder) {

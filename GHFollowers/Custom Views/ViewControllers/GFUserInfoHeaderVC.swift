@@ -41,7 +41,8 @@ class GFUserInfoHeaderVC: UIViewController {
     
     // This method used to set all components data
     func configureUIElements() {
-        avatarImageView.downLoadImage(from: user.avatarUrl)
+        downloadAvatarImage()
+        
         usernameLabel.text      = user.login
         nameLabel.text          = user.name ?? ""
         locationLabel.text      = user.location ?? "No Location"
@@ -51,6 +52,14 @@ class GFUserInfoHeaderVC: UIViewController {
         locationImageView.image = UIImage(systemName: SFSymbol.location) // SFSymbol should be enum
         locationImageView.tintColor = .secondaryLabel
     }
+    
+    func downloadAvatarImage() {
+        NetWorkManager.shared.downloadImage(from: user.avatarUrl) { [weak self] image in
+            guard let self = self else { return }
+            DispatchQueue.main.async { self.avatarImageView.image = image }
+        }
+    }
+    
     
     // This method used to superview all uikit components
     func addSubViews() {

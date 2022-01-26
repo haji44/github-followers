@@ -14,7 +14,7 @@ protocol UserInfoVCDelegate: class {
     func didTapGetFollowers(for user: User)
 }
 
-class UserInfoVC: UIViewController {
+class UserInfoVC: GFDataLoadingVC {
     
     let headerView = UIView() // this view will be consist of three child view
     let itemViewOne = UIView() // this view will be assinged GFUserItemVC
@@ -65,7 +65,7 @@ class UserInfoVC: UIViewController {
         self.add(childVC: GFUserInfoHeaderVC(user: user), to: self.headerView)
         self.add(childVC: repoItemVC, to: self.itemViewOne)
         self.add(childVC: followerItemVC, to: self.itemViewTwo)
-        self.dataLabel.text = "GitHub Since \(user.createdAt.convertToDisplayFormat())"
+        self.dataLabel.text = "GitHub Since \(user.createdAt.convertToMonthYearFormat())"
     }
     
     // This method modify the ui setting of headerview which will be assinged new child view
