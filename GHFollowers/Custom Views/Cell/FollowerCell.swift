@@ -10,7 +10,7 @@ import UIKit
 // This class responsible for cell for using in uicollectionView
 class FollowerCell: UICollectionViewCell {
     // using static attribute to allow object to use entirely
-    static let reuseId = "FollowerCell"
+    static let reuseId = "FollowerCell" // this variable should be Identical class name
     
     // make the components for showing the image and label on FollowerVC
     let avatarImageView = GFAvatarImageView(frame: .zero)
