@@ -43,13 +43,13 @@ class GFUserInfoHeaderVC: UIViewController {
     func configureUIElements() {
         downloadAvatarImage()
         
-        usernameLabel.text      = user.login
-        nameLabel.text          = user.name ?? ""
-        locationLabel.text      = user.location ?? "No Location"
-        bioLabel.text           = user.bio ?? "No bio available"
-        bioLabel.numberOfLines  = 3
+        usernameLabel.text          = user.login
+        nameLabel.text              = user.name ?? ""
+        locationLabel.text          = user.location ?? "No Location"
+        bioLabel.text               = user.bio ?? "No bio available"
+        bioLabel.numberOfLines      = 3
         
-        locationImageView.image = Images.placeholder
+        locationImageView.image     = SFSymbol.location
         locationImageView.tintColor = .secondaryLabel
     }
     
@@ -63,12 +63,7 @@ class GFUserInfoHeaderVC: UIViewController {
     
     // This method used to superview all uikit components
     func addSubViews() {
-        view.addSubview(avatarImageView)
-        view.addSubview(usernameLabel)
-        view.addSubview(nameLabel)
-        view.addSubview(locationImageView)
-        view.addSubview(locationLabel)
-        view.addSubview(bioLabel)
+        view.addSubViews(avatarImageView, usernameLabel, nameLabel, locationImageView, locationLabel, bioLabel)
     }
     
     // This method used to layout setting
@@ -86,7 +81,7 @@ class GFUserInfoHeaderVC: UIViewController {
             
             usernameLabel.topAnchor.constraint(equalTo: avatarImageView.topAnchor),
             usernameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: textImagePadding),
-            usernameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            usernameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             usernameLabel.heightAnchor.constraint(equalToConstant: 38),
             
             nameLabel.centerYAnchor.constraint(equalTo: avatarImageView.centerYAnchor, constant: 8),
@@ -107,7 +102,7 @@ class GFUserInfoHeaderVC: UIViewController {
             bioLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: textImagePadding),
             bioLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
             bioLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            bioLabel.heightAnchor.constraint(equalToConstant: 60)
+            bioLabel.heightAnchor.constraint(equalToConstant: 90)
         ])
         
     }

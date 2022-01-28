@@ -8,6 +8,8 @@
 
 import UIKit
 
+
+
 // This class is distributed generic components
 // and then this is treated as superclass
 class GFItemInfoVC: UIViewController {
@@ -18,7 +20,6 @@ class GFItemInfoVC: UIViewController {
     let actionButton = GFButton()
     
     var user: User!
-    var delegate: UserInfoVCDelegate!
     
     init(user: User) {
         super.init(nibName: nil, bundle: nil)

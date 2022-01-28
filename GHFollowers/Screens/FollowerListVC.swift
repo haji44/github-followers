@@ -8,9 +8,7 @@
 
 import UIKit
 
-protocol FollowerListVCDelegate: class {
-    func didRequestFollower(for username: String)
-}
+
 
 
 // This class in charge of the showing the follower for user
@@ -243,8 +241,8 @@ extension FollowerListVC: UISearchResultsUpdating {
         
 }
 
-//
-extension FollowerListVC: FollowerListVCDelegate {
+// MARK: UserInfoVCDelegate
+extension FollowerListVC: UserInfoVCDelegate {
     
     // this method is responsible for researching the result of user which was tapped in UserInfo
     func didRequestFollower(for username: String) {

@@ -31,9 +31,7 @@ class GFItemView: UIView {
     
     // This method used to set the UI
     func configure() {
-        addSubview(symbolImageView)
-        addSubview(titleLabel)
-        addSubview(countLabel)
+        addSubViews(symbolImageView, titleLabel, countLabel)
         
         symbolImageView.translatesAutoresizingMaskIntoConstraints = false
         symbolImageView.contentMode = .scaleAspectFill

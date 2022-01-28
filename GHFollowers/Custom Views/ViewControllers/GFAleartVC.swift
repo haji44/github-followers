@@ -47,9 +47,6 @@ class GFAleartVC: UIViewController {
     }
     
     func configureContainerView() {
-        view.addSubview(containerView)
-
-        
         NSLayoutConstraint.activate([
             containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -59,7 +56,6 @@ class GFAleartVC: UIViewController {
     }
     
     func configureTitleLable() {
-        containerView.addSubview(titileLabel)
         titileLabel.text = alertTitile ?? "Something went wrong"
         
         NSLayoutConstraint.activate([
@@ -71,7 +67,6 @@ class GFAleartVC: UIViewController {
     }
     
     func configureActionButton() {
-        containerView.addSubview(actionButton)
         actionButton.setTitle(buttonTitle ?? "OK", for: .normal)
         actionButton.addTarget(self, action: #selector(dismissVC), for: .touchUpInside)
         
@@ -84,7 +79,6 @@ class GFAleartVC: UIViewController {
     }
 
     func configureBodyLabel() {
-        containerView.addSubview(messageLabel)
         messageLabel.text = message ?? "Unable to comple request"
         messageLabel.numberOfLines = 4
         
