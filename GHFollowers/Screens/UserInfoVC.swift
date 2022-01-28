@@ -9,26 +9,30 @@
 import UIKit
 import SafariServices
 
-protocol UserInfoVCDelegate: class {
-    func didTapGitHubProfile(for user: User)
-    func didTapGetFollowers(for user: User)
+
+protocol UserInfoVCDelegate: AnyObject {
+    func didRequestFollower(for username: String)
 }
 
-class UserInfoVC: UIViewController {
+class UserInfoVC: GFDataLoadingVC {
     
-    let headerView = UIView() // this view will be consist of three child view
-    let itemViewOne = UIView() // this view will be assinged GFUserItemVC
-    let itemViewTwo = UIView() // this view will be assinged GFFollowerItemVC
-    let dataLabel = GFBodyLable(textAlignment: .center)
+    let scrollView          = UIScrollView()
+    let contentView           = UIView() // scroll view need conteview, and it's show the actual components
+    
+    let headerView          = UIView() // this view will be consist of three child view
+    let itemViewOne         = UIView() // this view will be assinged GFUserItemVC
+    let itemViewTwo         = UIView() // this view will be assinged GFFollowerItemVC
+    let dataLabel           = GFBodyLable(textAlignment: .center)
     var itemViews: [UIView] = []
 
     
     var username: String!
-    weak var delegate: FollowerListVCDelegate!
+    weak var delegate: UserInfoVCDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewController()
+        configureScrollView()
         layoutUI()
         getUserInfo()        
     }
@@ -38,6 +42,21 @@ class UserInfoVC: UIViewController {
         // apply the barbutton to navigation
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissVC))
         navigationItem.rightBarButtonItem = doneButton
+    }
+    
+    // this is responsible for setting scroll view
+    // make sure contenview's height and width
+    func configureScrollView() {
+        view.addSubViews(scrollView)
+        scrollView.addSubViews(contentView)
+        scrollView.pinToEdges(of: view)
+        contentView.pinToEdges(of: scrollView)
+        
+        // contentView need to know height and width
+        NSLayoutConstraint.activate([
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            contentView.heightAnchor.constraint(equalToConstant: 620)
+        ])
     }
     
     func getUserInfo() {
@@ -56,16 +75,10 @@ class UserInfoVC: UIViewController {
     
     // this is responsible for initializeing ui components and delegate
     func configureUIElements(with user: User) {
-        let repoItemVC = GFRepoItemVC(user: user)
-        repoItemVC.delegate = self
-        
-        let followerItemVC = GFFollowerItemVC(user: user)
-        followerItemVC.delegate = self
-        
         self.add(childVC: GFUserInfoHeaderVC(user: user), to: self.headerView)
-        self.add(childVC: repoItemVC, to: self.itemViewOne)
-        self.add(childVC: followerItemVC, to: self.itemViewTwo)
-        self.dataLabel.text = "GitHub Since \(user.createdAt.convertToDisplayFormat())"
+        self.add(childVC: GFRepoItemVC(user: user, delegate: self), to: self.itemViewOne)
+        self.add(childVC:  GFFollowerItemVC(user: user, delegate: self), to: self.itemViewTwo)
+        self.dataLabel.text = "GitHub Since \(user.createdAt.convertToMonthYearFormat())"
     }
     
     // This method modify the ui setting of headerview which will be assinged new child view
@@ -75,20 +88,20 @@ class UserInfoVC: UIViewController {
         
         itemViews = [headerView, itemViewOne, itemViewTwo, dataLabel]
 
+        // contentView is super view, so you need to set configuration based on contentView
         for itemView in itemViews {
-            view.addSubview(itemView)
+            contentView.addSubview(itemView)
             itemView.translatesAutoresizingMaskIntoConstraints = false
             
             NSLayoutConstraint.activate([
-                itemView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-                itemView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+                itemView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
+                itemView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
             ])
         }
         
-        
         NSLayoutConstraint.activate([
-            headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            headerView.heightAnchor.constraint(equalToConstant: 180),
+            headerView.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor),
+            headerView.heightAnchor.constraint(equalToConstant: 210),
             
             itemViewOne.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: padding),
             itemViewOne.heightAnchor.constraint(equalToConstant: itemHeight),
@@ -97,7 +110,7 @@ class UserInfoVC: UIViewController {
             itemViewTwo.heightAnchor.constraint(equalToConstant: itemHeight),
             
             dataLabel.topAnchor.constraint(equalTo: itemViewTwo.bottomAnchor, constant: padding),
-            dataLabel.heightAnchor.constraint(equalToConstant: 18)
+            dataLabel.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     
@@ -116,8 +129,24 @@ class UserInfoVC: UIViewController {
     }
 }
 
+
+// MARK: GFFollowerItemInfoVCDelegate
+extension UserInfoVC: GFFollowerItemVCDelegate {
+    // this will be called in FollowerItemVC,
+    // secondary calling this method
+    func didTapGetFollowers(for user: User) {
+        guard user.followers != 0  else {
+            pressntGFAlerOnMainThread(title: "No followers", message: "This user has no followers", buttonTitle: "So sad")
+            return
+        }
+        delegate.didRequestFollower(for: user.login)
+        dismissVC()
+    }
+}
+
+// MARK: GFRepoItemVCDelegate
 // this extion iclude the acutial implemetation about what delegate does
-extension UserInfoVC: UserInfoVCDelegate {
+extension UserInfoVC: GFRepoItemVCDelegate {
     
     // this method will be called in userinfoVC's subclass
     func didTapGitHubProfile(for user: User) {
@@ -128,17 +157,5 @@ extension UserInfoVC: UserInfoVCDelegate {
         }
         // this method call from viewcontroller extention
         presentSafariVC(for: url)
-    }
-    
-    // this will be called in FollowerItemVC,
-    // secondary calling this method
-    func didTapGetFollowers(for user: User) {
-        guard user.followers != 0  else {
-            pressntGFAlerOnMainThread(title: "No followers", message: "This user has no followers", buttonTitle: "So sad")
-            return
-        }
-            
-        delegate.didRequestFollower(for: user.login)
-        dismissVC()
     }
 }

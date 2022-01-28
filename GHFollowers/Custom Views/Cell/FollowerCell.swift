@@ -28,15 +28,14 @@ class FollowerCell: UICollectionViewCell {
     // this method get the data from follower
     // and then setting the user from data
     func set(follower: Follower) {
-        self.userNameLabel.text = follower.login
-        avatarImageView.downLoadImage(from: follower.avatarUrl)
+        avatarImageView.downloadImage(fromURL: follower.avatarUrl)
+        userNameLabel.text = follower.login
     }
     
     // cofigure the cell in order to decide the way how to show the text and image
     private func configure() {
         // for now, the app need to show two components
-        addSubview(avatarImageView)
-        addSubview(userNameLabel)
+        addSubViews(avatarImageView, userNameLabel)
         
         // declare the padding based on solid principle
         let padding: CGFloat = 8

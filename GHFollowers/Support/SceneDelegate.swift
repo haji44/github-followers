@@ -19,45 +19,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //1.declare the uiwindow instead of the viewcontroller
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = createTabbar()
+        window?.rootViewController = GFTabBarControllerViewController()
         window?.makeKeyAndVisible()
         configureNavigationBar()
     }
 
-    //2. implemet the methods to create the searchVC
-    //   before write this codd, the SearchVC class is needed
-    func createSearchNC() -> UINavigationController {
-        // 2-1. make the instance of SearchVC
-        let searchVC = SearchVC()
-
-        searchVC.title = "Search"
-        // UItabarItem has some option
-        // tabBarSystemItem can use the default icon
-        // UITabBarItem(tabBarSystemItem: type of the icon, tag: place of the item in the tabbar)
-        searchVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
-        
-        return UINavigationController(rootViewController: searchVC)
-    }
-    
-    func createFavoritesNC() -> UINavigationController {
-        let favoriteListVC = FavoriteListVC()
-        favoriteListVC.title = "Favorite"
-        favoriteListVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
-        
-        return UINavigationController(rootViewController: favoriteListVC)
-    }
-    
-    //3. implement the methods to tabbar
-    func createTabbar() -> UITabBarController {
-        // create tabbarcontroller within one screen
-        let tabbar = UITabBarController()
-        UITabBar.appearance().tintColor = .systemGreen
-        // include two NavigationController as methods
-        tabbar.viewControllers = [createSearchNC(), createFavoritesNC()]
-        
-        return tabbar
-    }
-    
     // create the configure navigation
     func configureNavigationBar() {
         UINavigationBar.appearance().tintColor = .systemGreen

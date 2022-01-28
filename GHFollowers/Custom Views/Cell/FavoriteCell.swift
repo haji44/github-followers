@@ -29,15 +29,14 @@ class FavoriteCell: UITableViewCell {
     // this method get the data from follower
     // and then setting the user from data
     func set(favorite: Follower) {
-        self.userNameLabel.text = favorite.login
-        avatarImageView.downLoadImage(from: favorite.avatarUrl)
+        avatarImageView.downloadImage(fromURL: favorite.avatarUrl)
+        userNameLabel.text = favorite.login
     }
     
     
     private func configure() {
-        addSubview(avatarImageView)
-        addSubview(userNameLabel)
-        
+        addSubViews(avatarImageView, userNameLabel)
+
         accessoryType = .disclosureIndicator // this line add ">" mark in cell
         
         let padding: CGFloat = 12

@@ -12,12 +12,12 @@ import UIKit
 // Header VC is one of the components of UserInfoVC
 class GFUserInfoHeaderVC: UIViewController {
 
-    let avatarImageView = GFAvatarImageView(frame: .zero)
-    let usernameLabel = GFTitleLabel(textAlignment: .left, fontSize: 34)
-    let nameLabel = GFSecondaryTitleLabel(fontSize: 18)
-    let locationImageView = UIImageView()
-    let locationLabel = GFSecondaryTitleLabel(fontSize: 18)
-    let bioLabel = GFBodyLable(textAlignment: .left)
+    let avatarImageView     = GFAvatarImageView(frame: .zero)
+    let usernameLabel       = GFTitleLabel(textAlignment: .left, fontSize: 34)
+    let nameLabel           = GFSecondaryTitleLabel(fontSize: 18)
+    let locationImageView   = UIImageView()
+    let locationLabel       = GFSecondaryTitleLabel(fontSize: 18)
+    let bioLabel            = GFBodyLable(textAlignment: .left)
     
     // this class data are based on user object
     // so firstly we need to initialize the user
@@ -34,32 +34,23 @@ class GFUserInfoHeaderVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addSubViews()
+        view.addSubViews(avatarImageView, usernameLabel, nameLabel, locationImageView, locationLabel, bioLabel)
         layoutUI()
         configureUIElements()
     }
     
     // This method used to set all components data
     func configureUIElements() {
-        avatarImageView.downLoadImage(from: user.avatarUrl)
-        usernameLabel.text      = user.login
-        nameLabel.text          = user.name ?? ""
-        locationLabel.text      = user.location ?? "No Location"
-        bioLabel.text           = user.bio ?? "No bio available"
-        bioLabel.numberOfLines  = 3
+        avatarImageView.downloadImage(fromURL: user.avatarUrl)
         
-        locationImageView.image = UIImage(systemName: SFSymbol.location) // SFSymbol should be enum
+        usernameLabel.text          = user.login
+        nameLabel.text              = user.name ?? ""
+        locationLabel.text          = user.location ?? "No Location"
+        bioLabel.text               = user.bio ?? "No bio available"
+        bioLabel.numberOfLines      = 3
+        
+        locationImageView.image     = SFSymbol.location
         locationImageView.tintColor = .secondaryLabel
-    }
-    
-    // This method used to superview all uikit components
-    func addSubViews() {
-        view.addSubview(avatarImageView)
-        view.addSubview(usernameLabel)
-        view.addSubview(nameLabel)
-        view.addSubview(locationImageView)
-        view.addSubview(locationLabel)
-        view.addSubview(bioLabel)
     }
     
     // This method used to layout setting
@@ -77,7 +68,7 @@ class GFUserInfoHeaderVC: UIViewController {
             
             usernameLabel.topAnchor.constraint(equalTo: avatarImageView.topAnchor),
             usernameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: textImagePadding),
-            usernameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            usernameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             usernameLabel.heightAnchor.constraint(equalToConstant: 38),
             
             nameLabel.centerYAnchor.constraint(equalTo: avatarImageView.centerYAnchor, constant: 8),
@@ -98,7 +89,7 @@ class GFUserInfoHeaderVC: UIViewController {
             bioLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: textImagePadding),
             bioLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
             bioLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            bioLabel.heightAnchor.constraint(equalToConstant: 60)
+            bioLabel.heightAnchor.constraint(equalToConstant: 90)
         ])
         
     }

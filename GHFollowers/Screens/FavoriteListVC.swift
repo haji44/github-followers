@@ -9,7 +9,7 @@
 import UIKit
 
 // this view controller consits of ui table view controller
-class FavoriteListVC: UIViewController {
+class FavoriteListVC: GFDataLoadingVC {
 
     let tableView = UITableView()
     var favorites: [Follower] = []
@@ -44,6 +44,7 @@ class FavoriteListVC: UIViewController {
         tableView.rowHeight = 80
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.removeExcessCelss()
         
         tableView.register(FavoriteCell.self, forCellReuseIdentifier: FavoriteCell.reuseId)
     }
@@ -56,21 +57,27 @@ class FavoriteListVC: UIViewController {
             
             switch result {
             case .success(let favorites):
-                if favorites.isEmpty {
-                    self.showEmptyStateView(with: "No Favoritess?\nAdd one on the follower screen", in: self.view)
-                } else {
-                    self.favorites = favorites
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                        self.view.bringSubviewToFront(self.tableView)
-                    }
-                }
-                
+                self.updateUI(with: favorites)
             case .failure(let error):
                 self.pressntGFAlerOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "OK")
             }
         }
     }
+    
+    // this method used to update faovrites list by reloadign Data
+    // upon get favorite sucess this method is called
+    func updateUI(with favorites: [Follower]) {
+        if favorites.isEmpty {
+            self.showEmptyStateView(with: "No Favoritess?\nAdd one on the follower screen", in: self.view)
+        } else {
+            self.favorites = favorites
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                self.view.bringSubviewToFront(self.tableView)
+            }
+        }
+    }
+        
 }
 
 
@@ -90,10 +97,8 @@ extension FavoriteListVC: UITableViewDelegate, UITableViewDataSource {
     
     // upon tapped cell this method will be excuted
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let favorites = favorites[indexPath.row]
-        let destVC = FollowerListVC()
-        destVC.userName = favorites.login
-        destVC.title = favorites.login
+        let favorite = favorites[indexPath.row]
+        let destVC = FollowerListVC(username: favorite.login)
         
         navigationController?.pushViewController(destVC, animated: true)
     }
@@ -101,19 +106,16 @@ extension FavoriteListVC: UITableViewDelegate, UITableViewDataSource {
     // this method is used to remove cell when swipping
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else { return }
-        
-        let favorite = favorites[indexPath.row]
-        favorites.remove(at: indexPath.row) // this line determine the item to remove
-        tableView.deleteRows(at: [indexPath], with: .left) // this line decide the way to remove animation
-        
-        // make sure to be identical from userdefaults and favorites
-        PersistanceManager.updateWith(favorite: favorite, actionType: .remove) { [weak self] error in
+                // make sure to be identical from userdefaults and favorites
+        PersistanceManager.updateWith(favorite: favorites[indexPath.row], actionType: .remove) { [weak self] error in
             guard let self = self else { return }
-            guard let error = error else { return }
+            guard let error = error else {
+                // data delete sucess
+                self.favorites.remove(at: indexPath.row) // this line determine the item to remove
+                tableView.deleteRows(at: [indexPath], with: .left) // this line decide the way to remove animation
+                return
+            }
             self.pressntGFAlerOnMainThread(title: "Unable to remove", message: error.rawValue, buttonTitle: "OK")
-            
-            
-            
         }
     }
 }

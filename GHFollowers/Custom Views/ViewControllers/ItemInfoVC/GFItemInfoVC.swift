@@ -8,6 +8,8 @@
 
 import UIKit
 
+
+
 // This class is distributed generic components
 // and then this is treated as superclass
 class GFItemInfoVC: UIViewController {
@@ -18,7 +20,6 @@ class GFItemInfoVC: UIViewController {
     let actionButton = GFButton()
     
     var user: User!
-    var delegate: UserInfoVCDelegate!
     
     init(user: User) {
         super.init(nibName: nil, bundle: nil)
@@ -63,9 +64,7 @@ class GFItemInfoVC: UIViewController {
     @objc func actionButtonTapped() { }
     
     private func layoutUI() {
-        view.addSubview(stackView)
-        view.addSubview(actionButton)
-        
+        view.addSubViews(stackView, actionButton)        
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
         let padding: CGFloat = 20

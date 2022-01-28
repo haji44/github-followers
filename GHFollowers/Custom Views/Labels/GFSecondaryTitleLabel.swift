@@ -22,10 +22,9 @@ class GFSecondaryTitleLabel: UILabel {
     
     // because this label always assing left side,
     // in that case we should set font size instead of text allinment
-    init(fontSize: CGFloat) {
-        super.init(frame: .zero)
+    convenience init(fontSize: CGFloat) {
+        self.init(frame: .zero)
         font = UIFont.systemFont(ofSize: fontSize, weight: .medium)
-        configure()
     }
     
     private func configure() {

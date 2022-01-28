@@ -10,9 +10,9 @@ import UIKit
 
 class GFAleartVC: UIViewController {
     
-    let containerView = UIView()
+    let containerView = GFAlertContainerView()
     let titileLabel = GFTitleLabel(textAlignment: .center, fontSize: 20)
-    let messageLable = GFBodyLable(textAlignment: .center)
+    let messageLabel = GFBodyLable(textAlignment: .center)
     let actionButton = GFButton(backGroundCoor: .systemPink, title: "OK")
     
     var alertTitile: String?
@@ -38,7 +38,9 @@ class GFAleartVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.75)
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.75)
+        view.addSubViews(containerView, titileLabel, actionButton, messageLabel)
+        
         configureContainerView()
         configureTitleLable()
         configureActionButton()
@@ -46,13 +48,6 @@ class GFAleartVC: UIViewController {
     }
     
     func configureContainerView() {
-        view.addSubview(containerView)
-        containerView.backgroundColor = .systemBackground
-        containerView.layer.cornerRadius = 16
-        containerView.layer.borderWidth = 2
-        containerView.layer.borderColor = UIColor.white.cgColor
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
             containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -62,7 +57,6 @@ class GFAleartVC: UIViewController {
     }
     
     func configureTitleLable() {
-        containerView.addSubview(titileLabel)
         titileLabel.text = alertTitile ?? "Something went wrong"
         
         NSLayoutConstraint.activate([
@@ -74,7 +68,6 @@ class GFAleartVC: UIViewController {
     }
     
     func configureActionButton() {
-        containerView.addSubview(actionButton)
         actionButton.setTitle(buttonTitle ?? "OK", for: .normal)
         actionButton.addTarget(self, action: #selector(dismissVC), for: .touchUpInside)
         
@@ -87,15 +80,14 @@ class GFAleartVC: UIViewController {
     }
 
     func configureBodyLabel() {
-        containerView.addSubview(messageLable)
-        messageLable.text = message ?? "Unable to comple request"
-        messageLable.numberOfLines = 4
+        messageLabel.text = message ?? "Unable to comple request"
+        messageLabel.numberOfLines = 4
         
         NSLayoutConstraint.activate([
-            messageLable.topAnchor.constraint(equalTo: titileLabel.topAnchor, constant: 8),
-            messageLable.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding),
-            messageLable.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding),
-            messageLable.bottomAnchor.constraint(equalTo: actionButton.topAnchor, constant: -12)
+            messageLabel.topAnchor.constraint(equalTo: titileLabel.topAnchor, constant: 8),
+            messageLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding),
+            messageLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding),
+            messageLabel.bottomAnchor.constraint(equalTo: actionButton.topAnchor, constant: -12)
         ])
     }
 

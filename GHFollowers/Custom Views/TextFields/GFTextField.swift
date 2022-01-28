@@ -30,13 +30,15 @@ class GFTextField: UITextField {
         tintColor = .label
         textAlignment = .center
         font = UIFont.preferredFont(forTextStyle: .title2)
-        //adjust font size
         adjustsFontSizeToFitWidth = true
         minimumFontSize = 12
         
         backgroundColor = .tertiarySystemBackground
         autocorrectionType = .no
         returnKeyType = .go
+        
+        clearButtonMode = .whileEditing // this line add the text field clear button
+        
         placeholder = "Enter a User"
     }
     
