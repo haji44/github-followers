@@ -16,6 +16,9 @@ protocol UserInfoVCDelegate: AnyObject {
 
 class UserInfoVC: GFDataLoadingVC {
     
+    let scrollView          = UIScrollView()
+    let contentView           = UIView() // scroll view need conteview, and it's show the actual components
+    
     let headerView          = UIView() // this view will be consist of three child view
     let itemViewOne         = UIView() // this view will be assinged GFUserItemVC
     let itemViewTwo         = UIView() // this view will be assinged GFFollowerItemVC
@@ -29,6 +32,7 @@ class UserInfoVC: GFDataLoadingVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewController()
+        configureScrollView()
         layoutUI()
         getUserInfo()        
     }
@@ -38,6 +42,21 @@ class UserInfoVC: GFDataLoadingVC {
         // apply the barbutton to navigation
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissVC))
         navigationItem.rightBarButtonItem = doneButton
+    }
+    
+    // this is responsible for setting scroll view
+    // make sure contenview's height and width
+    func configureScrollView() {
+        view.addSubViews(scrollView)
+        scrollView.addSubViews(contentView)
+        scrollView.pinToEdges(of: view)
+        contentView.pinToEdges(of: scrollView)
+        
+        // contentView need to know height and width
+        NSLayoutConstraint.activate([
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            contentView.heightAnchor.constraint(equalToConstant: 620)
+        ])
     }
     
     func getUserInfo() {
@@ -69,19 +88,19 @@ class UserInfoVC: GFDataLoadingVC {
         
         itemViews = [headerView, itemViewOne, itemViewTwo, dataLabel]
 
+        // contentView is super view, so you need to set configuration based on contentView
         for itemView in itemViews {
-            view.addSubview(itemView)
+            contentView.addSubview(itemView)
             itemView.translatesAutoresizingMaskIntoConstraints = false
             
             NSLayoutConstraint.activate([
-                itemView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-                itemView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+                itemView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
+                itemView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
             ])
         }
         
-        
         NSLayoutConstraint.activate([
-            headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            headerView.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor),
             headerView.heightAnchor.constraint(equalToConstant: 210),
             
             itemViewOne.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: padding),
