@@ -30,7 +30,6 @@ class GFTextField: UITextField {
         tintColor = .label
         textAlignment = .center
         font = UIFont.preferredFont(forTextStyle: .title2)
-        //adjust font size
         adjustsFontSizeToFitWidth = true
         minimumFontSize = 12
         

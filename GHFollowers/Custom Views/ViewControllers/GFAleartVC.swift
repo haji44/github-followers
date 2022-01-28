@@ -40,6 +40,7 @@ class GFAleartVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.75)
         view.addSubViews(containerView, titileLabel, actionButton, messageLabel)
+        
         configureContainerView()
         configureTitleLable()
         configureActionButton()

@@ -29,7 +29,7 @@ class GFFollowerItemVC: GFItemInfoVC {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
+    // MARK: LifCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureItems()

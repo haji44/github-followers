@@ -15,17 +15,17 @@ enum UIHelper {
     // then specifing the number of the coulmn
     static func createTheCoulumnFlowLayout(in view: UIView) -> UICollectionViewFlowLayout {
         // calculating every item width
-        let width = view.bounds.width
-        let padding: CGFloat = 12
+        let width                       = view.bounds.width
+        let padding: CGFloat            = 12
         let minimumItemSpacing: CGFloat = 10
-        let availableWidth = width - (padding * 2) - (minimumItemSpacing * 2)
-        let itemWidth = availableWidth / 3
+        let availableWidth              = width - (padding * 2) - (minimumItemSpacing * 2)
+        let itemWidth                   = availableWidth / 3
         
         // flowlayout consists of sectionInset and itemSize
-        let flowLayout = UICollectionViewFlowLayout()
+        let flowLayout                  = UICollectionViewFlowLayout()
         // sectionInset represents space for item to item
-        flowLayout.sectionInset = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
-        flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth + 40)
+        flowLayout.sectionInset         = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
+        flowLayout.itemSize             = CGSize(width: itemWidth, height: itemWidth + 40)
         
         return flowLayout
     }

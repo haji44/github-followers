@@ -10,9 +10,9 @@ import UIKit
 
 class NetWorkManager {
     // share one instance entire app
-    static let shared = NetWorkManager()
+    static let shared   = NetWorkManager()
     private let baseURL = "https://api.github.com/users/"
-    let cache = NSCache<NSString, UIImage>()
+    let cache           = NSCache<NSString, UIImage>()
     
     // to create the instance within this class, we need to initialize class its self
     private init() { }

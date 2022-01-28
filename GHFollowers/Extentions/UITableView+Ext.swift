@@ -11,11 +11,10 @@ import UIKit
 
 
 extension UITableView {
-    
+    // make sure to reload data in main thread
     func reloadDataOnMainThread() {
         DispatchQueue.main.async { self.reloadData() }
     }
-    
     
     // this methods used to remove excess cell in table view
     func removeExcessCelss() {

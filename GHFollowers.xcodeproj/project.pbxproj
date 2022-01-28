@@ -105,8 +105,8 @@
 			isa = PBXGroup;
 			children = (
 				20C6F2982753BBA200EE89BC /* SearchVC.swift */,
-				20C6F29A2753BBD600EE89BC /* FavoriteListVC.swift */,
 				20D171B4279456CD00A0E6CB /* FollowerListVC.swift */,
+				20C6F29A2753BBD600EE89BC /* FavoriteListVC.swift */,
 				20D3FAB6279D9559001C7D6C /* UserInfoVC.swift */,
 			);
 			path = Screens;
@@ -116,12 +116,12 @@
 			isa = PBXGroup;
 			children = (
 				20D3FAD427A1B23D001C7D6C /* New Group */,
-				20D3FAB1279D7633001C7D6C /* View */,
 				20D3FAB0279D75FD001C7D6C /* Labels */,
 				20D3FAAF279D75BB001C7D6C /* ViewControllers */,
-				20D3FAAE279D75B4001C7D6C /* Button */,
-				20D3FAAD279D75A8001C7D6C /* TextFields */,
 				20D3FAAC279D759A001C7D6C /* ImageViews */,
+				20D3FAAD279D75A8001C7D6C /* TextFields */,
+				20D3FAAE279D75B4001C7D6C /* Button */,
+				20D3FAB1279D7633001C7D6C /* View */,
 				20D3FAA52799D5A3001C7D6C /* Cell */,
 			);
 			path = "Custom Views";
@@ -225,8 +225,8 @@
 		20D3FAB0279D75FD001C7D6C /* Labels */ = {
 			isa = PBXGroup;
 			children = (
-				20D171B82794613C00A0E6CB /* GFBodyLable.swift */,
 				20D171B62794600100A0E6CB /* GFTitleLabel.swift */,
+				20D171B82794613C00A0E6CB /* GFBodyLable.swift */,
 				20D3FABE279E5B35001C7D6C /* GFSecondaryTitleLabel.swift */,
 			);
 			path = Labels;
@@ -279,14 +279,14 @@
 		EDDFE24023B6C71E00C026C3 /* GHFollowers */ = {
 			isa = PBXGroup;
 			children = (
-				20D171C027946DF000A0E6CB /* Extentions */,
 				20D3FAA22799C88B001C7D6C /* Utitlties */,
 				20D3FA9F2795D1B9001C7D6C /* Manager */,
 				20D3FA9C2795CAE9001C7D6C /* Model */,
-				EDDFE24F23B6C71E00C026C3 /* Info.plist */,
-				20D171C127946E6500A0E6CB /* Support */,
+				20D171C027946DF000A0E6CB /* Extentions */,
 				20D171BF27946DBD00A0E6CB /* Custom Views */,
+				EDDFE24F23B6C71E00C026C3 /* Info.plist */,
 				20D171BE27946D8100A0E6CB /* Screens */,
+				20D171C127946E6500A0E6CB /* Support */,
 			);
 			path = GHFollowers;
 			sourceTree = "<group>";

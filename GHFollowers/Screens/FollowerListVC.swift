@@ -107,17 +107,7 @@ class FollowerListVC: GFDataLoadingVC {
             switch result {
             // when method sucess, just print the data
             case .success(let followers):
-                // update follower objects and data source
-                if followers.count < 99 { self.hasMoreFollower = false }
-                self.follwers.append(contentsOf: followers)
-                
-                if self.follwers.isEmpty {
-                    let mesage = "This user doesn't have any followers. 🥲"
-                    
-                    DispatchQueue.main.async { self.showEmptyStateView(with: mesage, in: self.view) }
-                    return
-                }
-                self.updateData(on: followers)
+                self.updateUI(with: followers)
                 
             // when method failer, show alert
             case .failure(let error):
@@ -152,6 +142,21 @@ class FollowerListVC: GFDataLoadingVC {
         DispatchQueue.main.async { self.dataSource.apply(snapshot, animatingDifferences: true) }
     }
     
+    func updateUI(with followers: [Follower]) {
+        // update follower objects and data source
+        if followers.count < 99 { self.hasMoreFollower = false }
+        self.follwers.append(contentsOf: followers)
+        
+        if self.follwers.isEmpty {
+            let mesage = "This user doesn't have any followers. 🥲"
+            
+            DispatchQueue.main.async { self.showEmptyStateView(with: mesage, in: self.view) }
+            return
+        }
+        self.updateData(on: followers)
+    }
+    
+    
     // when the user do following the other user
     // this method is called
     @objc func addButtonTapped() {
@@ -165,24 +170,31 @@ class FollowerListVC: GFDataLoadingVC {
             
             switch result {
             case .success(let user):
-                let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
-                
-                PersistanceManager.updateWith(favorite: favorite, actionType: .add) { [weak self] error in
-                    guard let self = self else { return }
-                    guard let error = error else {
-                        // when error doesn't exist
-                        self.pressntGFAlerOnMainThread(title: "Sucess", message: "You have sucessfully favorited this user 🎉", buttonTitle: "OK")
-                        return
-                    }
-                    
-                    // when error exist
-                    self.pressntGFAlerOnMainThread(title: "Some this went wrong", message: error.rawValue, buttonTitle: "OK")
-                }
+                self.addUserToFavorites(user: user)
             case .failure(let error):
                 self.pressntGFAlerOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "OK")
             }
         }
     }
+    
+    func addUserToFavorites(user: User) {
+        let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
+        
+        PersistanceManager.updateWith(favorite: favorite, actionType: .add) { [weak self] error in
+            guard let self = self else { return }
+            guard let error = error else {
+                // when error doesn't exist
+                self.pressntGFAlerOnMainThread(title: "Sucess", message: "You have sucessfully favorited this user 🎉", buttonTitle: "OK")
+                return
+            }
+            
+            // when error exist
+            self.pressntGFAlerOnMainThread(title: "Some this went wrong", message: error.rawValue, buttonTitle: "OK")
+        }
+    }
+
+    
+    
 }
 
 // So that get new page

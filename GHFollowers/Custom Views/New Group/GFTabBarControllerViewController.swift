@@ -14,7 +14,6 @@ class GFTabBarControllerViewController: UITabBarController {
         super.viewDidLoad()
         UITabBar.appearance().tintColor = .systemGreen
         viewControllers = [createSearchNC(), createFavoritesNC()]
-
     }
     
     //2. implemet the methods to create the searchVC

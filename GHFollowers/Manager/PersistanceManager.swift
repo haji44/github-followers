@@ -13,16 +13,13 @@ enum PersistanceActionType {
     case add, remove
 }
 
-
 // This enum is responsible for persistance data by using userdefaults
 enum PersistanceManager {
     
     static private let defaults = UserDefaults.standard
     
     // Key is needed to coincide the data
-    enum Keys {
-        static let favorites = "favorites"
-    }
+    enum Keys { static let favorites = "favorites" }
     
     static func updateWith(favorite: Follower, actionType: PersistanceActionType, comlpleted: @escaping (GFError?) -> Void) {
         retrieveFavorites { result in
