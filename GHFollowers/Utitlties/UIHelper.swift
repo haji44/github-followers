@@ -8,10 +8,12 @@
 
 import UIKit
 
-struct UIHelper {
+// prevent from initializing empty UIhelper,
+// we should use enum
+enum UIHelper {
     // This method is responsible for the layout of UICollectionView,
     // then specifing the number of the coulmn
-    static func createTheCoulumnFlowLayou(in view: UIView) -> UICollectionViewFlowLayout {
+    static func createTheCoulumnFlowLayout(in view: UIView) -> UICollectionViewFlowLayout {
         // calculating every item width
         let width = view.bounds.width
         let padding: CGFloat = 12

@@ -11,7 +11,7 @@ import UIKit
 class GFAvatarImageView: UIImageView {
     let cache = NetWorkManager.shared.cache
     // this code get the data from the asset folder
-    let placeholderImage = UIImage(named: "avatar-placeholder")!
+    let placeholderImage = Images.placeholder
     
     // initialize uiimage
     override init(frame: CGRect) {

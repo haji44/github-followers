@@ -24,6 +24,7 @@ class FollowerListVC: GFDataLoadingVC {
     var filterdFollers = [Follower]() // this object update via search bar
     var collectionView: UICollectionView!
     var isSarching = false // this flag determains
+    var isLoadingMoreFollowers = false // slow network causes the race condition so this flag reflecting loading conditions
     // datasource are required to confirm Hashable
     var dataSource: UICollectionViewDiffableDataSource<Section, Follower>!
     
@@ -73,7 +74,7 @@ class FollowerListVC: GFDataLoadingVC {
     // and registering the object we want to show to the user.
     func configureCollectionView() {
         // initialize the object to add a subview
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createTheCoulumnFlowLayou(in: view))
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createTheCoulumnFlowLayout(in: view))
         view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.backgroundColor = .systemBackground
@@ -87,7 +88,6 @@ class FollowerListVC: GFDataLoadingVC {
     func configureSearchController() {
         let seartchController = UISearchController()
         seartchController.searchResultsUpdater = self
-        seartchController.searchBar.delegate = self // this delegate object notify the action when user interact with view
         seartchController.searchBar.placeholder = "Search for a username"
         navigationItem.searchController = seartchController
     }
@@ -97,6 +97,8 @@ class FollowerListVC: GFDataLoadingVC {
     // and then we handle the error based on the result enum
     func getFollowers(username: String, page: Int) {
         showLoadingView()
+        isLoadingMoreFollowers = true
+        
         NetWorkManager.shared.getFollowers(for: userName, page: page) { [weak self ] result in
             // because weak keyword return optional,
             // so you should check precondition of self
@@ -122,7 +124,11 @@ class FollowerListVC: GFDataLoadingVC {
             // when method failer, show alert
             case .failure(let error):
                 self.pressntGFAlerOnMainThread(title: "Bad stuff happened", message: error.rawValue, buttonTitle: "OK")
+                DispatchQueue.main.async {
+                    self.navigationController?.popViewController(animated: true)
+                }
             }
+            self.isLoadingMoreFollowers = false
         }
     }
     
@@ -174,8 +180,6 @@ class FollowerListVC: GFDataLoadingVC {
                     // when error exist
                     self.pressntGFAlerOnMainThread(title: "Some this went wrong", message: error.rawValue, buttonTitle: "OK")
                 }
-                
-                
             case .failure(let error):
                 self.pressntGFAlerOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "OK")
             }
@@ -193,7 +197,8 @@ extension FollowerListVC: UICollectionViewDelegate {
         let height = scrollView.frame.size.height
         
         if offsetY > contentHeight - height {
-            guard hasMoreFollower else { return }
+            // make sure if the user want to more loadingfollwers
+            guard hasMoreFollower, !isLoadingMoreFollowers else { return }
             page += 1
             getFollowers(username: userName, page: page)
         }
@@ -215,10 +220,17 @@ extension FollowerListVC: UICollectionViewDelegate {
 }
 
 // This extentin need to use the updateSearchResult
-extension FollowerListVC: UISearchResultsUpdating, UISearchBarDelegate {
+extension FollowerListVC: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
-        guard let filter = searchController.searchBar.text, !filter.isEmpty else { return }
+        // when a user get rid of the searchBar text
+        // then we remove the filltering data and update data of follower
+        guard let filter = searchController.searchBar.text, !filter.isEmpty else {
+            filterdFollers.removeAll()
+            updateData(on: follwers)
+            isSarching = false
+            return
+        }
         isSarching = true
         filterdFollers = follwers.filter { $0.login.lowercased().contains(filter.lowercased()) }
         updateData(on: filterdFollers)
@@ -243,7 +255,9 @@ extension FollowerListVC: FollowerListVCDelegate {
         page = 1
         follwers.removeAll()
         filterdFollers.removeAll()
-        collectionView.setContentOffset(.zero, animated: true) // this line code does reset view position
+        //  -item   : The value of the item element of the index path.
+        //  -section: The value of the section element of the index path.
+        collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true) // this line of code reset the view positon
         // get another followers
         getFollowers(username: username, page: page)
     }

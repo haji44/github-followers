@@ -12,7 +12,7 @@ class GFAleartVC: UIViewController {
     
     let containerView = GFAlertContainerView()
     let titileLabel = GFTitleLabel(textAlignment: .center, fontSize: 20)
-    let messageLable = GFBodyLable(textAlignment: .center)
+    let messageLabel = GFBodyLable(textAlignment: .center)
     let actionButton = GFButton(backGroundCoor: .systemPink, title: "OK")
     
     var alertTitile: String?
@@ -39,6 +39,7 @@ class GFAleartVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.75)
+        view.addSubViews(containerView, titileLabel, actionButton, messageLabel)
         configureContainerView()
         configureTitleLable()
         configureActionButton()
@@ -83,15 +84,15 @@ class GFAleartVC: UIViewController {
     }
 
     func configureBodyLabel() {
-        containerView.addSubview(messageLable)
-        messageLable.text = message ?? "Unable to comple request"
-        messageLable.numberOfLines = 4
+        containerView.addSubview(messageLabel)
+        messageLabel.text = message ?? "Unable to comple request"
+        messageLabel.numberOfLines = 4
         
         NSLayoutConstraint.activate([
-            messageLable.topAnchor.constraint(equalTo: titileLabel.topAnchor, constant: 8),
-            messageLable.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding),
-            messageLable.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding),
-            messageLable.bottomAnchor.constraint(equalTo: actionButton.topAnchor, constant: -12)
+            messageLabel.topAnchor.constraint(equalTo: titileLabel.topAnchor, constant: 8),
+            messageLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding),
+            messageLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding),
+            messageLabel.bottomAnchor.constraint(equalTo: actionButton.topAnchor, constant: -12)
         ])
     }
 

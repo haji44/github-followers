@@ -9,15 +9,17 @@
 import UIKit
 
 enum SFSymbol {
-    static let location = "mappin.and.ellipse"
-    static let folder = "folder"
-    static let gists = "text.alignleft"
-    static let followers = "heart"
-    static let following = "person.2"
+    static let location     = UIImage(named: "mappin.and.ellipse")
+    static let folder       = UIImage(named: "folder")
+    static let gists        = UIImage(named: "text.alignleft")
+    static let followers    = UIImage(named: "heart")
+    static let following    = UIImage(named: "person.2")
 }
 
 enum Images {
     static let ghLogo = UIImage(named: "gh-logo")
+    static let placeholder = UIImage(named: "avatar-placeholder")
+    static let emptyStateLogo = UIImage(named: "empty-state-logo")
 }
 
 enum ScreenSize {
