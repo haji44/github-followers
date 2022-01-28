@@ -12,6 +12,7 @@
 		20C6F2992753BBA200EE89BC /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C6F2982753BBA200EE89BC /* SearchVC.swift */; };
 		20C6F29B2753BBD600EE89BC /* FavoriteListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C6F29A2753BBD600EE89BC /* FavoriteListVC.swift */; };
 		20C9186627A43A47004260D1 /* UIview+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C9186527A43A47004260D1 /* UIview+Ext.swift */; };
+		20C9186827A44FFC004260D1 /* UITableView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C9186727A44FFC004260D1 /* UITableView+Ext.swift */; };
 		20D171B5279456CD00A0E6CB /* FollowerListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D171B4279456CD00A0E6CB /* FollowerListVC.swift */; };
 		20D171B72794600100A0E6CB /* GFTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D171B62794600100A0E6CB /* GFTitleLabel.swift */; };
 		20D171B92794613C00A0E6CB /* GFBodyLable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D171B82794613C00A0E6CB /* GFBodyLable.swift */; };
@@ -52,6 +53,7 @@
 		20C6F2982753BBA200EE89BC /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
 		20C6F29A2753BBD600EE89BC /* FavoriteListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteListVC.swift; sourceTree = "<group>"; };
 		20C9186527A43A47004260D1 /* UIview+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIview+Ext.swift"; sourceTree = "<group>"; };
+		20C9186727A44FFC004260D1 /* UITableView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Ext.swift"; sourceTree = "<group>"; };
 		20D171B4279456CD00A0E6CB /* FollowerListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerListVC.swift; sourceTree = "<group>"; };
 		20D171B62794600100A0E6CB /* GFTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFTitleLabel.swift; sourceTree = "<group>"; };
 		20D171B82794613C00A0E6CB /* GFBodyLable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFBodyLable.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				20D3FACB279EF817001C7D6C /* Date+Ext.swift */,
 				20D3FACD279EFA38001C7D6C /* String+Ext.swift.swift */,
 				20C9186527A43A47004260D1 /* UIview+Ext.swift */,
+				20C9186727A44FFC004260D1 /* UITableView+Ext.swift */,
 			);
 			path = Extentions;
 			sourceTree = "<group>";
@@ -379,6 +382,7 @@
 				20D3FAD027A031EA001C7D6C /* PersistanceManager.swift in Sources */,
 				20D3FABB279DBD5D001C7D6C /* GFError.swift in Sources */,
 				20D171B72794600100A0E6CB /* GFTitleLabel.swift in Sources */,
+				20C9186827A44FFC004260D1 /* UITableView+Ext.swift in Sources */,
 				20D3FA9B2795CAE2001C7D6C /* Follower.swift in Sources */,
 				20D3FABF279E5B35001C7D6C /* GFSecondaryTitleLabel.swift in Sources */,
 				20D3FAD827A1B9B7001C7D6C /* GFAlertContainerView.swift in Sources */,

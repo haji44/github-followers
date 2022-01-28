@@ -27,26 +27,24 @@ enum PersistanceManager {
     static func updateWith(favorite: Follower, actionType: PersistanceActionType, comlpleted: @escaping (GFError?) -> Void) {
         retrieveFavorites { result in
             switch result {
-            case .success(let favorites):
-                var retrievedFavorites = favorites // this line is needed to treat favorites to change muttable
-                
+            case .success(var favorites): // this line is needed to treat favorites to change muttable
                 switch actionType {
                 // before doing add, we need to  make sure that favorites doesn't exist in user defaults
                 case .add:
-                    guard !retrievedFavorites.contains(favorite) else {
+                    guard !favorites.contains(favorite) else {
                         comlpleted(.alreadyInFavorites)
                         return
                     }
                     
-                    retrievedFavorites.append(favorite)
+                    favorites.append(favorite)
                 
                 // the conditions of removing data is User's login identical to aurguments
                 case .remove:
-                    retrievedFavorites.removeAll { $0.login == favorite.login }
+                    favorites.removeAll { $0.login == favorite.login }
                 }
                 
                 // because save method return GFError, so we can use this as coopleted's aurguments
-                comlpleted(save(favorites: retrievedFavorites))
+                comlpleted(save(favorites: favorites))
 
             case .failure(let error):
                 comlpleted(error)
