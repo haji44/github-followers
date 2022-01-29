@@ -17,9 +17,9 @@ class GFButton: UIButton {
     }
     
     //implement another init method
-    convenience init(backGroundCoor: UIColor, title: String) {
+    convenience init(color: UIColor, title: String, systemImageName: String) {
         self.init(frame: .zero)
-        set(backGroundColor: backGroundCoor, title: title)
+        set(color: color, title: title, systemImageName: systemImageName)
     }
     
     required init?(coder: NSCoder) {
@@ -27,18 +27,22 @@ class GFButton: UIButton {
     }
     
     private func configure() {
-        layer.cornerRadius = 10
-        titleLabel?.textColor = .white
-        titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
+        configuration               = .tinted()
+        configuration?.cornerStyle  = .medium
         translatesAutoresizingMaskIntoConstraints = false
     }
     
     
     // This method is used in CustomeVC
     // Every button should be defferent color
-    func set(backGroundColor: UIColor, title: String) {
-        self.backgroundColor = backGroundColor
-        setTitle(title, for: .normal)
+    final func set(color: UIColor, title: String, systemImageName: String) {
+        configuration?.baseBackgroundColor = color
+        configuration?.baseForegroundColor = color
+        configuration?.title               = title
+        
+        configuration?.image               = UIImage(systemName: systemImageName)
+        configuration?.imagePadding        = 6
+        configuration?.imagePlacement      = .leading
     }
     
 }
