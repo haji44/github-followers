@@ -40,7 +40,7 @@ class GFRepoItemVC: GFItemInfoVC {
     private func configureItems () {
         itemInfoViewOne.set(itemInfoType: .repo, withCount: user.publicRepos)
         itemInfoViewTwo.set(itemInfoType: .gists, withCount: user.publicGists)
-        actionButton.set(backGroundColor: .systemPurple, title: "GitHub Profile") // this method is calle from GFButtonClass
+        actionButton.set(color: .systemPurple, title: "GitHub Profile", systemImageName: "person.3") // this method is calle from GFButtonClass
     }
     
 

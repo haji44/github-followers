@@ -12,7 +12,7 @@ class SearchVC: UIViewController {
 
     let logoImageView = UIImageView()
     let userNameTextField = GFTextField()
-    let callToActionButton = GFButton(backGroundCoor: .systemGreen, title: "Git Followers")
+    let callToActionButton = GFButton(color: .systemGreen, title: "Git Followers", systemImageName: "person.3")
     
     var isUsernameEnterd: Bool { return userNameTextField.text!.isEmpty }
     
