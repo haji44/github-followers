@@ -12,14 +12,22 @@ import SafariServices
 
 extension UIViewController {
     
-    func pressntGFAlerOnMainThread(title: String, message:String, buttonTitle: String) {
-        DispatchQueue.main.async {
+    func presentGFAlert(title: String, message:String, buttonTitle: String) {
             let alertVC = GFAleartVC(title: title, message: message, buttonTitle: buttonTitle)
             alertVC.modalPresentationStyle = .overFullScreen
             alertVC.modalTransitionStyle = .crossDissolve
             self.present(alertVC, animated: true)
-        }
     }
+    
+    func presentDefaultError() {
+            let alertVC = GFAleartVC(title: "Something Went Wrong",
+                                     message: "We were unable to complete your task as this time.",
+                                     buttonTitle: "OK")
+            alertVC.modalPresentationStyle = .overFullScreen
+            alertVC.modalTransitionStyle = .crossDissolve
+            self.present(alertVC, animated: true)
+    }
+    
     
     func presentSafariVC(for url: URL) {
         // create safari view and then show up for user

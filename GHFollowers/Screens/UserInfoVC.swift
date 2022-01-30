@@ -60,15 +60,16 @@ class UserInfoVC: GFDataLoadingVC {
     }
     
     func getUserInfo() {
-        NetWorkManager.shared.getUserInfo(for: username) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-                
-            case .success(let user):
-                DispatchQueue.main.async { self.configureUIElements(with: user) }
-                
-            case .failure(let error):
-                self.pressntGFAlerOnMainThread(title: "something went wrong", message: error.rawValue, buttonTitle: "OK")
+        Task {
+            do {
+                let user = try await NetWorkManager.shared.getUserInfo(for: username)
+                configureUIElements(with: user)
+            } catch {
+                if let error = error as? GFError {
+                    presentGFAlert(title: "something went wrong", message: error.rawValue, buttonTitle: "OK")
+                } else {
+                    presentDefaultError()
+                }
             }
         }
     }
@@ -136,7 +137,7 @@ extension UserInfoVC: GFFollowerItemVCDelegate {
     // secondary calling this method
     func didTapGetFollowers(for user: User) {
         guard user.followers != 0  else {
-            pressntGFAlerOnMainThread(title: "No followers", message: "This user has no followers", buttonTitle: "So sad")
+            presentGFAlert(title: "No followers", message: "This user has no followers", buttonTitle: "So sad")
             return
         }
         delegate.didRequestFollower(for: user.login)
@@ -152,7 +153,7 @@ extension UserInfoVC: GFRepoItemVCDelegate {
     func didTapGitHubProfile(for user: User) {
         // the url indicate the user's repo
         guard let url = URL(string: user.htmlUrl ) else {
-            pressntGFAlerOnMainThread(title: "Invalid URL", message: "The url attached to this user is invalid", buttonTitle: "OK")
+            presentGFAlert(title: "Invalid URL", message: "The url attached to this user is invalid", buttonTitle: "OK")
             return
         }
         // this method call from viewcontroller extention
