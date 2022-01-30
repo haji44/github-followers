@@ -97,27 +97,34 @@ class FollowerListVC: GFDataLoadingVC {
         showLoadingView()
         isLoadingMoreFollowers = true
         
-        NetWorkManager.shared.getFollowers(for: userName, page: page) { [weak self ] result in
-            // because weak keyword return optional,
-            // so you should check precondition of self
-            guard let self = self else { return }
-            
-            self.dismissLodingView()
-            
-            switch result {
-            // when method sucess, just print the data
-            case .success(let followers):
-                self.updateUI(with: followers)
-                
-            // when method failer, show alert
-            case .failure(let error):
-                self.pressntGFAlerOnMainThread(title: "Bad stuff happened", message: error.rawValue, buttonTitle: "OK")
-                DispatchQueue.main.async {
-                    self.navigationController?.popViewController(animated: true)
+        // suport concurrency asyn excution must be wrapped
+        Task {
+            do {
+                // sucess case
+                let followers = try await NetWorkManager.shared.getFollowers(for: username, page: page)
+                updateUI(with: followers)
+                dismissLodingView()
+                isLoadingMoreFollowers = false
+            } catch  {
+                // handle error
+                if let gfError = error as? GFError {
+                    presentGFAlert(title: "Bad Stuff Hppend", message: gfError.rawValue, buttonTitle: "OK")
+                } else {
+                    presentDefaultError()
                 }
+                isLoadingMoreFollowers = false
+                dismissLodingView()
             }
-            self.isLoadingMoreFollowers = false
         }
+        
+//        guard let followers = try? await NetWorkManager.shared.getFollowers(for: username, page: page) else {
+//            presentDefaultError()
+//            dismissLodingView()
+//            return
+//
+//        }
+        
+        
     }
     
     
@@ -162,17 +169,19 @@ class FollowerListVC: GFDataLoadingVC {
     @objc func addButtonTapped() {
         showLoadingView()
         
-        // within this closure, we use self
-        // capture list is requred
-        NetWorkManager.shared.getUserInfo(for: userName) { [weak self] result in
-            guard let self = self else { return }
-            self.dismissLodingView()
-            
-            switch result {
-            case .success(let user):
-                self.addUserToFavorites(user: user)
-            case .failure(let error):
-                self.pressntGFAlerOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "OK")
+        Task {
+            do {
+                let user = try await NetWorkManager.shared.getUserInfo(for: userName)
+                addUserToFavorites(user: user)
+                dismissLodingView()
+            } catch {
+                if let gfError = error as? GFError {
+                    presentGFAlert(title: "Something went wrong", message: gfError.rawValue, buttonTitle: "OK")
+                    
+                } else {
+                    presentDefaultError()
+                }
+                dismissLodingView()
             }
         }
     }
@@ -183,18 +192,18 @@ class FollowerListVC: GFDataLoadingVC {
         PersistanceManager.updateWith(favorite: favorite, actionType: .add) { [weak self] error in
             guard let self = self else { return }
             guard let error = error else {
-                // when error doesn't exist
-                self.pressntGFAlerOnMainThread(title: "Sucess", message: "You have sucessfully favorited this user 🎉", buttonTitle: "OK")
+                DispatchQueue.main.async {
+                    // when error doesn't exist
+                    self.presentGFAlert(title: "Sucess", message: "You have sucessfully favorited this user 🎉", buttonTitle: "OK")                    
+                }
                 return
             }
-            
-            // when error exist
-            self.pressntGFAlerOnMainThread(title: "Some this went wrong", message: error.rawValue, buttonTitle: "OK")
+            DispatchQueue.main.async {
+                // when error exist
+                self.presentGFAlert(title: "Some this went wrong", message: error.rawValue, buttonTitle: "OK")
+            }
         }
     }
-
-    
-    
 }
 
 // So that get new page
